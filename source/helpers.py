@@ -1,23 +1,23 @@
 def unirEstados(automato, estados):
-    # É feita a união de todos os estados do automato que estão na lista estados
-    final = {} #simbolos e os estados acessíveis a partir dele, é atualizado a cada passagem pela função 
+    final = {}  # Dicionário para armazenar as transições do estado resultante
     def unir(estado):
+        # Função interna para unir as transições de um estado no estado resultante
         for e in estado:
             if e in final:
-                final[e] = unirListas(final[e], estado[e])
+                final[e] = unirListas(final[e], estado[e])  # Combina as transições se já existirem
             else:
-                final.update({e: estado[e]})
+                final.update({e: estado[e]})  # Adiciona as transições se não existirem
 
-    for estado in estados: # percorre os estados que precisam ser unidos, e adiciona as transições de cada simbolo para o dicionario final
-        unir(automato[estado])
-    return final
+    for estado in estados:  # Percorre os estados que devem ser unidos
+        unir(automato[estado])  # Chama a função de unir para cada estado
+    return final  # Retorna o estado resultante unido
 
 
 def unirListas(l1, l2):
     return l1 + list(set(l2) - set(l1))
 
 
-def unirAutomatos(afd, afndTemp):
+def  unirAutomatos(afd, afndTemp):
     mapaNovosEstados = {x: x + len(afd) for x in range(len(afndTemp))} # cria um dicionário, com as novas posições na afnd principal das regras do afnd
     aux = []
 
@@ -38,24 +38,37 @@ def unirAutomatos(afd, afndTemp):
     for chave in afndTemp.keys():
         afd.update({mapaNovosEstados[chave] : afndTemp[chave]}) #cria os novos estados na afnd principal
 
-
 def exibirAutomatoDeterministico(afnd, alfabeto):
-    alfabeto.sort()
-    print('     {}'.format('-----'*len(alfabeto)))
+    alfabeto.sort()  # Ordena o alfabeto em ordem alfabética
+    
+    # Imprime a linha superior da tabela
+    print('     {}'.format('-----' * len(alfabeto)))
+    # Imprime os símbolos do alfabeto na primeira linha da tabela
     print('     |', end='')
     for i in alfabeto:
         print('  {:2}|'.format(i), end='')
-    print('\n     {}'.format('-----'*len(alfabeto)))
+    print('\n     {}'.format('-----' * len(alfabeto)))
+    
+    # Percorre os estados do autômato
     for i in afnd.keys():
+        # Verifica se o estado é final (marcado com '*')
         if '*' in afnd[i].keys():
             print('*', end='')
         else:
             print(' ', end='')
-        print('{:3}:|'.format(i), end='')
+        # Imprime o nome do estado
+        print('{:^3}:|'.format(chr(65 + i)), end='')
+        
+        # Percorre os símbolos do alfabeto
         for j in alfabeto:
+            # Verifica se existe uma transição para o símbolo j a partir do estado i
             if j in afnd[i].keys():
-                print(' {:2} |'.format(afnd[i][j][0]), end='')
+                # Imprime o próximo estado alcançado pela transição
+                print(' {:2} |'.format(chr(65 + afnd[i][j][0])), end='')
             else:
+                # Imprime '-' caso não haja transição para o símbolo j
                 print(' {:2} |'.format('-'), end='')
         print('')
-    print('     {}'.format('-----'*len(alfabeto)))
+    
+    # Imprime a linha inferior da tabela
+    print('     {}'.format('-----' * len(alfabeto)))

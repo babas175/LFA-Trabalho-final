@@ -1,6 +1,7 @@
 from .helpers import *
 
 
+
 def eliminarEpsilonTransicoes(afnd):
     epsilon = []
 
