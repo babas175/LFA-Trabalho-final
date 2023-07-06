@@ -40,35 +40,27 @@ def  unirAutomatos(afd, afndTemp):
 
 def exibirAutomatoDeterministico(afnd, alfabeto):
     alfabeto.sort()  # Ordena o alfabeto em ordem alfabética
-    
     # Imprime a linha superior da tabela
-    print('     {}'.format('-----' * len(alfabeto)))
+    print("  ",'     {}'.format('-----' * len(alfabeto)))
     # Imprime os símbolos do alfabeto na primeira linha da tabela
-    print('     |', end='')
+    print("  ",'     |', end='')
     for i in alfabeto:
         print('  {:2}|'.format(i), end='')
-    print('\n     {}'.format('-----' * len(alfabeto)))
-    
+    print("  ",'\n     {}'.format('-----' * len(alfabeto)))
     # Percorre os estados do autômato
     for i in afnd.keys():
-        # Verifica se o estado é final (marcado com '*')
         if '*' in afnd[i].keys():
             print('*', end='')
         else:
             print(' ', end='')
-        # Imprime o nome do estado
-        print('{:^3}:|'.format(chr(65 + i)), end='')
-        
-        # Percorre os símbolos do alfabeto
+        if i == 0:  # Modificação: Verifica se o estado é o estado inicial e imprime 'S'
+            print(" ",'S   :|', end='')
+        else:
+            print('{:^6}:|'.format(chr(64 + i)), end='')  # Imprime as regras em ordem alfabética
         for j in alfabeto:
-            # Verifica se existe uma transição para o símbolo j a partir do estado i
             if j in afnd[i].keys():
-                # Imprime o próximo estado alcançado pela transição
-                print(' {:2} |'.format(chr(65 + afnd[i][j][0])), end='')
+                print(' {:2} |'.format(chr(64 + afnd[i][j][0])), end='')
             else:
-                # Imprime '-' caso não haja transição para o símbolo j
                 print(' {:2} |'.format('-'), end='')
         print('')
-    
-    # Imprime a linha inferior da tabela
-    print('     {}'.format('-----' * len(alfabeto)))
+    print("  ",'     {}'.format('-----' * len(alfabeto)))

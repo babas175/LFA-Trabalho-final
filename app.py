@@ -3,8 +3,8 @@ from source.determiniza import *
 from source.helpers import *
 
 afd = {}    #determinismo
-alfabeto = []
-gramatica = []
+alfabeto = [] #Alfabeto
+gramatica = [] # Gramatica
 
 entrada = open("entrada.txt", "r") #abre o arquivo de entrada
 entradaString = entrada.read() #salva em uma string o conteudo do arquivo de entrada
@@ -32,8 +32,10 @@ while entradaLista:
             gramatica.append(regraGramaticaLida) 
             entradaLista.remove(regraGramaticaLida)
 
-eliminarEpsilonTransicoes(afd)
-determinizar(afd)
+#eliminarEpsilonTransicoes(afd)
+determinizar(afd) # Afd
 print('Automato finito deterministico:')
-exibirAutomatoDeterministico(afd, alfabeto)
+
+
+exibirAutomatoDeterministico(afd, alfabeto) #exibir
 
